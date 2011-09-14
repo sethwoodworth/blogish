@@ -1,17 +1,20 @@
 from django.conf.urls.defaults import patterns, include, url
+from django.http import HttpResponse
+from django.conf import settings
+from django.contrib import admin
+admin.autodiscover()
 
-# Uncomment the next two lines to enable the admin:
-# from django.contrib import admin
-# admin.autodiscover()
 
 urlpatterns = patterns('',
-    # Examples:
-    # url(r'^$', 'blogish.views.home', name='home'),
-    # url(r'^blogish/', include('blogish.foo.urls')),
+    # Upkeep
+    url(r'^static/(?P<path>.*)$', 'django.views.static.serve',
+        {'document_root': settings.STATIC_ROOT}),
+    url(r'^media/(?P<path>.*)$', 'django.views.static.serve', 
+        {'document_root': settings.MEDIA_ROOT}),
+    url(r'^admin/', include(admin.site.urls)),
+    (r'^robots\.txt$', lambda r: HttpResponse("User-agent: *\nDisallow: ", mimetype="text/plain")),
 
-    # Uncomment the admin/doc line below to enable admin documentation:
-    # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
-
-    # Uncomment the next line to enable the admin:
-    # url(r'^admin/', include(admin.site.urls)),
+    # Routes
+    url(r'^blog/$', include('blogish.blog.urls')),
+    url(r'^$', 'blogish.blog.views.index'),
 )
