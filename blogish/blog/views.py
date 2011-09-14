@@ -5,22 +5,22 @@ from django.template.defaultfilters import slugify
 import os
 import yaml
 # project imports
-from ishblog.models import Entry
+from blog.models import Entry
 
 
 def entry(request, year, slug):
     entry = get_object_or_404(Entry, slug=slug,
             pub_date__year=year,)
 
-    return render_to_response('blog/post.html', {'entry': entry})
+    return render_to_response('post.html', {'entry': entry})
 
 def list(request):
     entries = Entry.objects.filter(published=True).order_by('-pub_date').all()
 
-    return render_to_response('blog/list.html', {'entries': entries } )
+    return render_to_response('list.html', {'entries': entries } )
 
-def static(request):
-    return render_to_response('blog/index.html', {} )
+def index(request):
+    return render_to_response('index.html', {} )
 
 def load():
     """
