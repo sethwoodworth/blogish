@@ -1,0 +1,14 @@
+{% block all %}
+
+<ul class="breadcrumbs">
+{% for entry in entries %}
+  <li>
+    <a href="{{ entry.url }}">{{ entry.title }}</a>
+    {% if not forloop.last %}
+      <span class="separator">&gt;</span>
+    {% endif %}
+  </li>
+{% endfor %}
+</ul> <!-- breadcrums -->
+
+{% endblock %}
